@@ -1,0 +1,1 @@
+# snapp-analyzer-extension
