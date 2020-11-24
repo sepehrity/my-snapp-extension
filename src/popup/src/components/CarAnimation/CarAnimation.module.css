@@ -1,0 +1,26 @@
+.carSpeed {
+  display: inline-flex;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 3rem;
+}
+
+.loading {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  justify-content: center;
+  width: 25rem;
+}
+
+.loading > p {
+  height: 2rem;
+}
+
+.lottie {
+  margin-top: 1.5rem;
+  transition: transform 4s ease;
+  will-change: transform;
+}

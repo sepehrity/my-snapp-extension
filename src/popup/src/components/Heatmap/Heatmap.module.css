@@ -1,0 +1,19 @@
+.heatmap {
+  height: 100%;
+  width: 100%;
+}
+
+.mapbox {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 7rem 8rem 3rem 8rem;
+  width: 100%;
+}
+
+.title {
+  fill: rgb(51, 51, 51);
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 2rem;
+}

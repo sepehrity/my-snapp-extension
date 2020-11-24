@@ -1,0 +1,76 @@
+{
+  "name": "popup",
+  "version": "2.2.0",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@nivo/bar": "^0.63.1",
+    "@nivo/core": "^0.63.1",
+    "dom-to-image": "^2.6.0",
+    "lodash.get": "^4.4.2",
+    "lodash.mergewith": "^4.6.2",
+    "lodash.set": "^4.3.2",
+    "lodash.setwith": "^4.3.2",
+    "mapbox-gl": "^1.12.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-lottie-player": "^1.0.2",
+    "react-mapbox-gl": "^4.8.6",
+    "react-scripts": "^3.4.4",
+    "typescript": "^3.9.7"
+  },
+  "devDependencies": {
+    "@types/dom-to-image": "^2.6.2",
+    "@types/lodash.get": "^4.4.6",
+    "@types/lodash.mergewith": "^4.6.6",
+    "@types/lodash.set": "^4.3.6",
+    "@types/lodash.setwith": "^4.3.6",
+    "@types/mapbox-gl": "^1.12.5",
+    "@types/node": "^14.14.2",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-lottie": "^1.2.5",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.1.2"
+  },
+  "scripts": {
+    "start:build": "cra-build-watch -v --build-path ../../dist/popup",
+    "lint": "eslint --ext .ts,.tsx src/",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

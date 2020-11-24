@@ -1,0 +1,17 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "jsx": "react",
+    "lib": ["es2017", "dom"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": false,
+    "strict": true,
+    "target": "es5",
+    "typeRoots": ["node_modules/@types"],
+    "types": ["@types/chrome", "node"]
+  },
+  "include": ["src/background", "src/contentscript"]
+}

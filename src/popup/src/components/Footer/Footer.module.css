@@ -1,0 +1,18 @@
+.footer {
+  border-top: 1px solid #dcdcdc;
+  display: flex;
+  font-size: 0.85rem;
+  justify-content: space-around;
+  padding-top: 1rem;
+}
+
+.link {
+  color: #777;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  will-change: color;
+}
+
+.link:hover {
+  color: #333;
+}

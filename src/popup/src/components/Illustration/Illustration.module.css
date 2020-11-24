@@ -1,0 +1,9 @@
+.illustration {
+  filter: grayscale(1) opacity(0.6);
+  transition: filter 0.3s ease;
+  will-change: filter;
+}
+
+.illustration:hover {
+  filter: grayscale(0) opacity(1);
+}

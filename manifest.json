@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "My Snapp",
+  "short_name": "My Snapp",
+  "version": "2.2.0",
+  "description": "Analyze your Snapp rides",
+  "permissions": ["tabs", "storage"],
+  "browser_action": {
+    "default_popup": "popup/index.html",
+    "default_title": "My Snapp"
+  },
+  "icons": {
+    "128": "assets/icon.png"
+  },
+  "content_scripts": [
+    {
+      "js": ["contentscript.js"],
+      "matches": ["https://app.snapp.taxi/*"]
+    }
+  ],
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources": ["assets/*"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

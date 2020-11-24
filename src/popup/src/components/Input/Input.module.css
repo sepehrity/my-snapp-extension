@@ -1,0 +1,19 @@
+.input {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.input:focus + .svgIcon {
+  color: #4264fb;
+}
+
+.svgIcon {
+  left: 1rem;
+  position: absolute;
+  top: 0.7rem;
+  transform: rotate(45deg);
+}

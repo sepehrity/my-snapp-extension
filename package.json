@@ -1,0 +1,44 @@
+{
+  "name": "snapp-analyzer-extension",
+  "version": "2.2.0",
+  "lintOnSave": true,
+  "description": "Analyze your Snapp rides",
+  "main": "index.js",
+  "scripts": {
+    "build:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:popup": "INLINE_RUNTIME_CHUNK=false npm run build --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",
+    "build": "npm-run-all build:*",
+    "clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
+    "start:contentscript-background": "NODE_ENV=development webpack --config webpack.config.js -w",
+    "start:popup": "npm run start:build --prefix src/popup",
+    "start": "npm-run-all --parallel start:*",
+    "prebuild": "npm run clean",
+    "prestart": "npm run clean",
+    "tada": "bestzip my-snapp-extension.zip dist/*"
+  },
+  "keywords": [],
+  "license": "GPL-3.0+",
+  "author": {
+    "name": "Sepehr Mohammadi",
+    "email": "sepehrity@gmail.com"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.125",
+    "@types/node": "^14.14.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "bestzip": "^2.1.7",
+    "cpy-cli": "^3.1.1",
+    "cra-build-watch": "^3.2.0",
+    "css-loader": "^5.0.0",
+    "eslint-loader": "^3.0.3",
+    "mini-css-extract-plugin": "^1.2.0",
+    "node-sass": "^4.14.1",
+    "npm-run-all": "^4.1.5",
+    "sass-loader": "^10.0.4",
+    "ts-node": "^9.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^3.9.7",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^4.1.0"
+  }
+}

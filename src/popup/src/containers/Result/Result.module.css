@@ -1,0 +1,34 @@
+.blooming {
+  margin-bottom: 3rem;
+  transition: filter 0.3s ease;
+}
+
+.hintSetToken {
+  font-size: 1.4rem;
+}
+
+.mapboxToken {
+  color: #777;
+  transition: color 0.3s ease;
+  will-change: color;
+}
+
+.mapboxToken:hover {
+  color: #333;
+}
+
+.mapboxToken:hover ~ .blooming {
+  filter: grayscale(1) opacity(0.5) blur(4px);
+}
+
+.result {
+  height: 100%;
+}
+
+.placeholder {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column-reverse;
+}

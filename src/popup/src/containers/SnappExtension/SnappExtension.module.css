@@ -1,0 +1,41 @@
+.actions {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.extension {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 25rem;
+}
+
+.hint {
+  color: #777;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 2;
+  margin-bottom: 1rem;
+}
+
+.loadData {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.mapboxButton {
+  background-color: #4264fb;
+  margin-top: 1rem;
+}
+
+.snappButton {
+  margin: 1rem 0;
+  background-color: #00d16f;
+}

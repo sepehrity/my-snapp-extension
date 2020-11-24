@@ -1,0 +1,28 @@
+export default {
+  creator: 'sepehrity@',
+  download: 'دانلود',
+  getAnalytics: 'بزن بریم',
+  getMapboxToken: 'دریافت کلید Mapbox',
+  github: 'GitHub',
+  hashtag: 'اسنپ_من',
+  heatmapTitle: 'محل‌های تردد',
+  kmH: 'کیلومتر بر ساعت',
+  loadData: 'در حال آماده‌سازی...',
+  loginToSnapp: 'ورود به اسنپ',
+  mapboxTokenHasSet: 'کلید اضافه شد',
+  mapboxTokenPlaceholder: 'Paste your Mapbox Access Token',
+  price: 'هزینه',
+  saveChart: 'دریافت نمودار',
+  saveData: 'ذخیره‌ی اطلاعات',
+  snapp: 'Snapp',
+  snappLoginHint: 'برای دریافت گزارش باید وارد حساب اسنپت بشی!',
+  total: 'مجموع',
+  tweet: 'توییت',
+  twitter: 'به اشتراک‌گذاری در توییتر',
+  waitToComplete: 'تا رسیدن به مقصد منتظر بمون...',
+  weArrived: 'رسیدیم...',
+  mapboxHint:
+    'برای اضافه شدن «نقشه‌ی محل‌های تردد» هم می‌تونی کلید Mapbox رو اضافه کنی:',
+  setMapboxToken:
+    'برای نمایش «نقشه‌ی محل‌های تردد» به کلید Mapbox نیاز داریم. بعد از اینکه اکانت ساختی، می‌تونی کلیدت رو به افزونه اضافه کنی و دوباره گزارش بگیری.',
+};

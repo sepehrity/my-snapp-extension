@@ -1,0 +1,28 @@
+.item {
+  color: #666;
+  cursor: pointer;
+  filter: blur(1px) opacity(0.7);
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0 1rem;
+  position: relative;
+  transition: filter, 0.4s ease;
+  will-change: filter;
+}
+
+.item:hover {
+  filter: blur(0) opacity(1);
+}
+
+.itemActive {
+  color: black;
+  filter: blur(0px);
+}
+
+.yearSelector {
+  align-items: center;
+  display: flex;
+  height: 4rem;
+  margin-bottom: 3rem;
+  margin-top: -6rem;
+}

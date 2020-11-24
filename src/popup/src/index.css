@@ -1,0 +1,85 @@
+body {
+  background-color: #fafafa;
+  border: 0;
+  box-sizing: border-box;
+  color: #003a00;
+  display: flex;
+  font-size: 1rem;
+  justify-content: center;
+  margin: 0;
+  min-height: 20rem;
+  text-align: center;
+  user-select: none;
+}
+
+html,
+body {
+  height: 100%;
+  margin: auto;
+}
+
+* {
+  box-sizing: border-box;
+  direction: rtl;
+  font-family: "Sahel", sans-serif;
+}
+
+#root {
+  width: 100%;
+}
+
+label {
+  align-self: flex-start;
+  color: #999;
+  display: inline-block;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+input,
+button {
+  border-color: transparent;
+  display: block;
+  font-family: "Sahel", sans-serif;
+  height: 40px;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.08),
+    0 3px 7px 0 rgba(0, 0, 0, 0.09);
+}
+
+button {
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #828282;
+  pointer-events: none;
+}
+
+input {
+  padding: 0 1rem 0 3rem;
+}
+
+input:focus {
+  outline-color: #4264fb;
+}
+
+input::placeholder {
+  opacity: 0.6;
+}
+
+a {
+  color: unset;
+  text-decoration: none;
+  width: 100%;
+}
