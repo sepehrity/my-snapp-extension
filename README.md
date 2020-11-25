@@ -58,9 +58,21 @@ Build: (my-snapp-extension.zip)
 npm run tada
 ```
 
+### Todo
+
+- [ ] #feat update new rides manually/automatically (needs to store the last ride id)
+- [ ] #feat porting **MySnapp** to Safari Web Extensions [issue [#1][macosporting]]
+- [ ] #feat porting **MySnapp** to Firefox Add-ons (maybe we can use it on Android devices)
+- [ ] #bug car charts show duplicate data
+
+### In Progress
+
+- [ ] add a **scroll to bottom** button to the pages
+
 [mapdoc]: https://docs.mapbox.com/api/#rate-limits
 [maptoken]: https://account.mapbox.com/access-tokens
 [snapppwa]: https://app.snapp.taxi
 [snappwiki]: https://en.wikipedia.org/wiki/Snapp!
 [snapprepo]: https://github.com/snapp-cab
 [chromestorage]: https://developer.chrome.com/extensions/storage
+[macosporting]: https://github.com/sepehrity/my-snapp-extension/issues/1
