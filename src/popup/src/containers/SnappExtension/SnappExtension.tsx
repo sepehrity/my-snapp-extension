@@ -33,7 +33,7 @@ const SnappExtension = () => {
       setData(result);
     });
     chrome.storage.local.get('mapboxToken', ({ mapboxToken }) => {
-      setMapboxToken(mapboxToken);
+      setMapboxToken(mapboxToken || '');
     });
 
     // clean-up
