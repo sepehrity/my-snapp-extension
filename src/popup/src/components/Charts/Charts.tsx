@@ -26,9 +26,10 @@ const Charts = ({
     };
   }, [_hours, _days, _weeks, _months, _years]);
 
-  const CarCharts: CountPriceObject[] = useMemo(() => {
-    return getCarsChunks(getSortedPattern(_cars, month_pattern, 'count'));
-  }, [_cars]);
+  const CarCharts: CountPriceObject[] = useMemo(
+    () => getCarsChunks(getSortedPattern(_cars, [], 'count')),
+    [_cars]
+  );
 
   return (
     <>
