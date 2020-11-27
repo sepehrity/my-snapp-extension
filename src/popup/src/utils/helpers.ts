@@ -41,11 +41,15 @@ export const getBucket = (number: number): Array<number> => {
 
 export const getCarsChunks = <T extends CountPriceObject>(obj: T) => {
   const buckets = getBucket(Object.keys(obj).length);
-  return buckets.reduce((tmp: T[], b, index) => {
-    const data = Object.entries(obj)
-      .splice(index * b, b)
+  const arr = Object.entries(obj);
+  const size = buckets[0];
+  let to = 0;
+  return buckets.reduce((tmp: T[], bucket, index) => {
+    to += bucket;
+    const chunk = arr
+      .slice(index * size, to)
       .reduce((tmp, [key, val]) => ({ ...tmp, [key]: val }), {}) as T;
-    tmp.push(getSortedPattern(data, [], 'count'));
+    tmp.push(getSortedPattern(chunk, [], 'count'));
     return tmp;
   }, []);
 };
