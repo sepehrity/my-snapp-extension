@@ -1,13 +1,5 @@
 import type { CountPrice, CountPriceObject } from 'types/Rides';
 
-export const arrayIntoChunks = <T>(arr: T[], chunkSize: number) => {
-  const chunks: T[][] = [];
-  while (arr.length) {
-    chunks.push(arr.splice(0, chunkSize));
-  }
-  return chunks;
-};
-
 const compareFn = (a: string, b: string, pattern: string[]) => {
   return pattern.indexOf(a) - pattern.indexOf(b);
 };
@@ -27,7 +19,7 @@ export const getSortedPattern = <T extends CountPriceObject>(
     .reduce((tmp, [key, val]) => ({ ...tmp, [key]: val }), {}) as T;
 };
 
-export const getBucket = (number: number): Array<number> => {
+const getBucket = (number: number): Array<number> => {
   // TODO: check other scenarios
   const size = Math.ceil(number / 9);
   const fill = Math.ceil(number / size);

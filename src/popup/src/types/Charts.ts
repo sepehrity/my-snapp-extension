@@ -8,7 +8,7 @@ export type BarChartsObject = PickByValue<
 
 export type BarChartTypes = keyof BarChartsObject | '_cars' | '_years';
 
-export type BarDataType = {
+type BarDataType = {
   [key in keyof BarChartsObject]?: string;
 };
 

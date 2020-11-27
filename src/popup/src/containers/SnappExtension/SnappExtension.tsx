@@ -14,7 +14,7 @@ import Input from 'components/Input/Input';
 import Link from 'components/Link';
 import styles from './SnappExtension.module.css';
 
-export const SnappExtension = () => {
+const SnappExtension = () => {
   const [accessToken, setAccessToken] = useState<string>('');
   const [data, setData] = useState<RidesData | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);

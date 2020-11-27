@@ -16,7 +16,7 @@ interface Props
   label?: string;
 }
 
-export const Input = ({ id, icon, type, label, ...rest }: Props) => {
+const Input = ({ id, icon, type, label, ...rest }: Props) => {
   return (
     <div className={styles.input}>
       {label && <label htmlFor={id}>{label}</label>}

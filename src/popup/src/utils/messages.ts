@@ -41,7 +41,7 @@ const equalsToDay = (value: number) => {
   return `معادل با ${value} روز`;
 };
 
-export const getTotalInfoFormat: {
+const getTotalInfoFormat: {
   [type in RidesInfo]: {
     format: (
       value: number
@@ -110,9 +110,6 @@ export const mapToPersian: { [type in BarChartTypes]: string } = {
   _years: 'سال',
   _cars: 'مدل ماشین',
 };
-
-export const getAnalyzeText = (hasMapboxToken: boolean) =>
-  hasMapboxToken ? 'بزن بریم (با نقشه)' : 'بزن بریم (بدون نقشه)';
 
 export const getExportName: { [type in BarChartTypes]: string } = {
   _hours: 'Hours',

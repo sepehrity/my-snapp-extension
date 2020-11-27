@@ -15,7 +15,7 @@ const mapStyle: React.CSSProperties = {
   flex: 1,
 };
 
-export interface Props {
+interface Props {
   accessToken: string;
   points: LocationPoint;
 }
