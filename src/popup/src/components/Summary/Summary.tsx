@@ -12,6 +12,7 @@ import useTweet from 'hooks/useTweet';
 
 import Icon from 'components/Icon';
 import Illustration from 'components/Illustration';
+import ScrollDown from 'components/ScrollDown';
 import YearSelector from 'components/YearSelector';
 import styles from './Summary.module.css';
 
@@ -59,6 +60,7 @@ const Summary = ({ active, onSelectYear, ranges, summary, years }: Props) => {
         width={280}
         height={200}
       />
+      <ScrollDown />
       <YearSelector
         active={active}
         style={buttonStyle}

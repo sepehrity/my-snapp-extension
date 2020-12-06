@@ -1,0 +1,50 @@
+.wrapper {
+  position: absolute;
+  right: 50%;
+  bottom: 8rem;
+}
+
+@media screen and (max-height: 800px) {
+  .wrapper {
+    bottom: 5rem;
+  }
+}
+
+@media screen and (max-height: 680px) {
+  .wrapper {
+    display: none;
+  }
+}
+
+.chevron {
+  animation: scrollDown 2s infinite;
+  border-bottom: 3px solid #00d16f;
+  border-right: 3px solid #00d16f;
+  display: block;
+  height: 2rem;
+  margin: -0.625rem;
+  transform: rotate(45deg);
+  width: 2rem;
+}
+
+.wrapper span:nth-child(2) {
+  animation-delay: -0.2s;
+}
+
+.wrapper span:nth-child(3) {
+  animation-delay: -0.4s;
+}
+
+@keyframes scrollDown {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate(-2rem, -2rem);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(2rem, 2rem);
+  }
+}
