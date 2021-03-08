@@ -16,7 +16,15 @@ export const convertedData = (response: RideHistoryResponse[]) => {
   return response.reduce(
     (
       tmp: RidesData,
-      { destination, final_price, origin, rows, title, vehicle_model }
+      {
+        destination,
+        final_price,
+        origin,
+        rows,
+        title,
+        vehicle_model,
+        service_type_name,
+      }
     ) => {
       // check cancelled rides
       if (isCanceledRide(title)) {
@@ -48,6 +56,28 @@ export const convertedData = (response: RideHistoryResponse[]) => {
         tmp,
         [year, '_summary', 'prices'],
         get(tmp, [year, '_summary', 'prices'], 0) + price
+      );
+
+      // calculate service types
+      set(
+        tmp,
+        ['total', '_types', service_type_name, 'count'],
+        get(tmp, ['total', '_types', service_type_name, 'count'], 0) + 1
+      );
+      set(
+        tmp,
+        ['total', '_types', service_type_name, 'price'],
+        get(tmp, ['total', '_types', service_type_name, 'price'], 0) + price
+      );
+      set(
+        tmp,
+        [year, '_types', service_type_name, 'count'],
+        get(tmp, [year, '_types', service_type_name, 'count'], 0) + 1
+      );
+      set(
+        tmp,
+        [year, '_types', service_type_name, 'price'],
+        get(tmp, [year, '_types', service_type_name, 'price'], 0) + price
       );
 
       /* 

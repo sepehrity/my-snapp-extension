@@ -26,6 +26,7 @@ const getTypeFormat: {
   _days: { format: (value) => `روز ${value}ام` },
   _months: { format: (value) => `${value} ماه` },
   _years: { format: (value) => `سال ${value}` },
+  _types: { format: (value) => `${value}` },
   _cars: {
     format: (value) => {
       return isSnappBike(value) ? SNAPP_BIKE : formatCarName(value);
@@ -109,6 +110,7 @@ export const mapToPersian: { [type in BarChartTypes]: string } = {
   _months: 'ماه‌های سال',
   _years: 'سال',
   _cars: 'مدل ماشین',
+  _types: 'نوع سرویس',
 };
 
 export const getExportName: { [type in BarChartTypes]: string } = {
@@ -118,4 +120,5 @@ export const getExportName: { [type in BarChartTypes]: string } = {
   _months: 'Months',
   _years: 'Years',
   _cars: 'Cars',
+  _types: 'ServiceTypes',
 };

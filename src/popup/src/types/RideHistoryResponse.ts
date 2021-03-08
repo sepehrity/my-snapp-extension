@@ -17,4 +17,5 @@ export interface RideHistoryResponse {
   title: string;
   updated_at: string;
   vehicle_model: string;
+  service_type_name: string;
 }

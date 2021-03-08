@@ -33,6 +33,7 @@ export type Rides = {
   _hours: CountPriceObject;
   _months: CountPriceObject;
   _points: LocationPoint;
+  _types: CountPriceObject;
   _weeks: CountPriceObject;
   _years?: CountPriceObject;
 };
