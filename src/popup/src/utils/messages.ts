@@ -1,5 +1,5 @@
 import type { BarChartTypes } from 'types/Charts';
-import type { RidesInfo } from 'types/Rides';
+import type { SummaryItemType, SummaryKeys } from 'types/Summary';
 
 import {
   convertDistanceToTehranShomal,
@@ -18,8 +18,10 @@ const getRidesCount = (count: React.ReactText) => {
   return `${count} سفر`;
 };
 
+type GetTypeFormatType = { format: (value: string) => string };
+
 const getTypeFormat: {
-  [type in BarChartTypes]: { format: (value: string) => string };
+  [type in BarChartTypes]: GetTypeFormatType;
 } = {
   _hours: { format: (value) => `ساعت ${value}` },
   _weeks: { format: (value) => `${value}` },
@@ -42,22 +44,19 @@ const equalsToDay = (value: number) => {
   return `معادل با ${value} روز`;
 };
 
-const getTotalInfoFormat: {
-  [type in RidesInfo]: {
-    format: (
-      value: number
-    ) => { description: string; message: number | string; unit: string };
+const getFormattedSummary: {
+  [type in SummaryKeys]: {
+    format: (value: number) => SummaryItemType;
   };
 } = {
   count: {
     format: (value) => {
-      return { description: '', message: formattedNumber(value), unit: 'سفر' };
+      return { message: formattedNumber(value), unit: 'سفر' };
     },
   },
   prices: {
     format: (value) => {
       return {
-        description: '',
         message: getPrice(Number(value), false),
         unit: 'تومان',
       };
@@ -96,8 +95,8 @@ export const getTooltipMessage = (
   )} (${getRidesCount(count)})`;
 };
 
-export const getInfoMessage = (value: number, type: RidesInfo) => {
-  return getTotalInfoFormat[type].format(value);
+export const getSummaryItemMessage = (value: number, type: SummaryKeys) => {
+  return getFormattedSummary[type].format(value);
 };
 
 export const getStartAndEndDate = (start: string, end: string) =>

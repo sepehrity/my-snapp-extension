@@ -5,8 +5,6 @@ export type CountPrice = {
 
 export type CountPriceObject = { [name: string]: CountPrice };
 
-export type RidesInfo = keyof Rides['_summary'];
-
 export type Coordinate = {
   lat: string | number;
   lng: string | number;

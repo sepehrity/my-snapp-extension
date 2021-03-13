@@ -1,18 +1,17 @@
 import React, { memo, useMemo } from 'react';
 
-import type { IconNames } from 'types/IconNames';
-import type { Rides, RidesInfo } from 'types/Rides';
+import type { Rides } from 'types/Rides';
 import type { Props as YearSelectorProps } from 'components/YearSelector';
 
-import { getInfoMessage, getStartAndEndDate } from 'utils/messages';
+import { getSummaryItemMessage, getStartAndEndDate } from 'utils/messages';
 import { summary_pattern } from 'utils/patterns';
 import constants from 'utils/constants';
 import useDownload from 'hooks/useDownload';
 import useTweet from 'hooks/useTweet';
 
-import Icon from 'components/Icon';
 import Illustration from 'components/Illustration';
 import ScrollDown from 'components/ScrollDown';
+import SummaryItem from 'components/SummaryItem';
 import YearSelector from 'components/YearSelector';
 import styles from './Summary.module.css';
 
@@ -20,13 +19,6 @@ interface Props extends YearSelectorProps {
   ranges: Rides['_ranges'];
   summary: Rides['_summary'];
 }
-
-const getIconType: { [type in RidesInfo]: IconNames } = {
-  count: 'car',
-  prices: 'money',
-  durations: 'clock',
-  distances: 'location',
-};
 
 const Summary = ({ active, onSelectYear, ranges, summary, years }: Props) => {
   const {
@@ -73,26 +65,8 @@ const Summary = ({ active, onSelectYear, ranges, summary, years }: Props) => {
           <TweetButton style={buttonStyle} {...tweetButtonProps} />
         </div>
         {keys.map((key) => {
-          const { message, unit, description } = getInfoMessage(
-            summary[key],
-            key
-          );
-          return (
-            <div key={key} className={styles.row}>
-              <div className={styles.icon}>
-                <Icon type={getIconType[key]} />
-              </div>
-              <div className={styles.wrapper}>
-                <div className={styles.content}>
-                  <span>{message}</span>
-                  <span>{unit}</span>
-                </div>
-                {description && (
-                  <span className={styles.description}>({description})</span>
-                )}
-              </div>
-            </div>
-          );
+          const value = getSummaryItemMessage(summary[key], key);
+          return <SummaryItem key={key} type={key} value={value} />;
         })}
         <div className={styles.date}>
           {getStartAndEndDate(ranges.start, ranges.end)}
