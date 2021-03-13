@@ -24,6 +24,8 @@ export const convertedData = (response: RideHistoryResponse[]) => {
         title,
         vehicle_model,
         service_type_name,
+        has_rated,
+        rate,
       }
     ) => {
       // check cancelled rides
@@ -57,6 +59,34 @@ export const convertedData = (response: RideHistoryResponse[]) => {
         [year, '_summary', 'prices'],
         get(tmp, [year, '_summary', 'prices'], 0) + price
       );
+
+      // calculate service rates
+      if (has_rated && rate) {
+        setWith(
+          tmp,
+          ['total', '_rates', rate, 'count'],
+          get(tmp, ['total', '_rates', rate, 'count'], 0) + 1,
+          Object
+        );
+        setWith(
+          tmp,
+          ['total', '_rates', rate, 'price'],
+          get(tmp, ['total', '_rates', rate, 'price'], 0) + price,
+          Object
+        );
+        setWith(
+          tmp,
+          [year, '_rates', rate, 'count'],
+          get(tmp, [year, '_rates', rate, 'count'], 0) + 1,
+          Object
+        );
+        setWith(
+          tmp,
+          [year, '_rates', rate, 'price'],
+          get(tmp, [year, '_rates', rate, 'price'], 0) + price,
+          Object
+        );
+      }
 
       // calculate service types
       set(

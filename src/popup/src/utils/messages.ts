@@ -1,5 +1,5 @@
 import type { BarChartTypes } from 'types/Charts';
-import type { SummaryItemType, SummaryKeys } from 'types/Summary';
+import type { RateObject, SummaryItemType, SummaryKeys } from 'types/Summary';
 
 import {
   convertDistanceToTehranShomal,
@@ -29,6 +29,7 @@ const getTypeFormat: {
   _months: { format: (value) => `${value} ماه` },
   _years: { format: (value) => `سال ${value}` },
   _types: { format: (value) => `${value}` },
+  _rates: { format: (value) => `${value} امتیاز` },
   _cars: {
     format: (value) => {
       return isSnappBike(value) ? SNAPP_BIKE : formatCarName(value);
@@ -99,6 +100,17 @@ export const getSummaryItemMessage = (value: number, type: SummaryKeys) => {
   return getFormattedSummary[type].format(value);
 };
 
+export const getRateSummaryMessage = ({
+  count,
+  sum,
+}: RateObject): SummaryItemType => {
+  return {
+    description: `${count} سفر`,
+    message: formattedNumber(sum / count, 2),
+    unit: 'امتیاز',
+  };
+};
+
 export const getStartAndEndDate = (start: string, end: string) =>
   `${start}   تا   ${end}`;
 
@@ -109,6 +121,7 @@ export const mapToPersian: { [type in BarChartTypes]: string } = {
   _months: 'ماه‌های سال',
   _years: 'سال',
   _cars: 'مدل ماشین',
+  _rates: 'امتیاز سفر',
   _types: 'نوع سرویس',
 };
 
@@ -119,5 +132,6 @@ export const getExportName: { [type in BarChartTypes]: string } = {
   _months: 'Months',
   _years: 'Years',
   _cars: 'Cars',
+  _rates: 'Rates',
   _types: 'ServiceTypes',
 };

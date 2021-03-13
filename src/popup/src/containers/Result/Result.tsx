@@ -73,6 +73,7 @@ const Result = ({ mapboxToken, data }: Props) => {
         active={year}
         onSelectYear={handleSelectYear}
         ranges={currentData._ranges}
+        rates={currentData._rates}
         summary={currentData._summary}
         years={options}
       />

@@ -31,6 +31,7 @@ export type Rides = {
   _hours: CountPriceObject;
   _months: CountPriceObject;
   _points: LocationPoint;
+  _rates: CountPriceObject;
   _types: CountPriceObject;
   _weeks: CountPriceObject;
   _years?: CountPriceObject;

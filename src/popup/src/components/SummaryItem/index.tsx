@@ -6,7 +6,8 @@ import type { SummaryItemType, SummaryKeys } from 'types/Summary';
 import Icon from 'components/Icon';
 import styles from './SummaryItem.module.css';
 
-type Type = SummaryKeys;
+type ExtraKeys = 'rate';
+type Type = SummaryKeys | ExtraKeys;
 
 type Props = {
   type: Type;
@@ -18,6 +19,7 @@ const getIconType: { [type in Type]: IconNames } = {
   prices: 'money',
   durations: 'clock',
   distances: 'location',
+  rate: 'star',
 };
 
 const SummaryItem = ({

@@ -1,4 +1,4 @@
-import { Coordinate } from './Rides';
+import type { Coordinate } from './Rides';
 
 interface RowDetail {
   description: string;
@@ -18,4 +18,6 @@ export interface RideHistoryResponse {
   updated_at: string;
   vehicle_model: string;
   service_type_name: string;
+  has_rated: boolean;
+  rate?: number;
 }
