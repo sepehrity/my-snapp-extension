@@ -9,6 +9,7 @@ import Clock from './Clock';
 import Download from './Download';
 import Location from './Location';
 import Money from './Money';
+import Star from './Star';
 import Token from './Token';
 import Twitter from './Twitter';
 
@@ -28,6 +29,7 @@ const getIcon: { [icon in IconNames]: React.FunctionComponent<SVGProps> } = {
   download: Download,
   location: Location,
   money: Money,
+  star: Star,
   token: Token,
   twitter: Twitter,
 };

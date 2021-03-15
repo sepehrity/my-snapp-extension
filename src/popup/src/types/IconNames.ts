@@ -5,5 +5,6 @@ export type IconNames =
   | 'download'
   | 'location'
   | 'money'
+  | 'star'
   | 'token'
   | 'twitter';

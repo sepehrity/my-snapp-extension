@@ -16,7 +16,17 @@ export const convertedData = (response: RideHistoryResponse[]) => {
   return response.reduce(
     (
       tmp: RidesData,
-      { destination, final_price, origin, rows, title, vehicle_model }
+      {
+        destination,
+        final_price,
+        origin,
+        rows,
+        title,
+        vehicle_model,
+        service_type_name,
+        has_rated,
+        rate,
+      }
     ) => {
       // check cancelled rides
       if (isCanceledRide(title)) {
@@ -48,6 +58,56 @@ export const convertedData = (response: RideHistoryResponse[]) => {
         tmp,
         [year, '_summary', 'prices'],
         get(tmp, [year, '_summary', 'prices'], 0) + price
+      );
+
+      // calculate service rates
+      if (has_rated && rate) {
+        setWith(
+          tmp,
+          ['total', '_rates', rate, 'count'],
+          get(tmp, ['total', '_rates', rate, 'count'], 0) + 1,
+          Object
+        );
+        setWith(
+          tmp,
+          ['total', '_rates', rate, 'price'],
+          get(tmp, ['total', '_rates', rate, 'price'], 0) + price,
+          Object
+        );
+        setWith(
+          tmp,
+          [year, '_rates', rate, 'count'],
+          get(tmp, [year, '_rates', rate, 'count'], 0) + 1,
+          Object
+        );
+        setWith(
+          tmp,
+          [year, '_rates', rate, 'price'],
+          get(tmp, [year, '_rates', rate, 'price'], 0) + price,
+          Object
+        );
+      }
+
+      // calculate service types
+      set(
+        tmp,
+        ['total', '_types', service_type_name, 'count'],
+        get(tmp, ['total', '_types', service_type_name, 'count'], 0) + 1
+      );
+      set(
+        tmp,
+        ['total', '_types', service_type_name, 'price'],
+        get(tmp, ['total', '_types', service_type_name, 'price'], 0) + price
+      );
+      set(
+        tmp,
+        [year, '_types', service_type_name, 'count'],
+        get(tmp, [year, '_types', service_type_name, 'count'], 0) + 1
+      );
+      set(
+        tmp,
+        [year, '_types', service_type_name, 'price'],
+        get(tmp, [year, '_types', service_type_name, 'price'], 0) + price
       );
 
       /* 

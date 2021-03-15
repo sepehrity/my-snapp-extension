@@ -18,7 +18,7 @@
   background-color: rgb(0, 209, 111);
   border-radius: 4px;
   color: #fff;
-  content: "#اسنپ_من";
+  content: '#اسنپ_من';
   font-size: 1.3rem;
   font-weight: 600;
   padding: 0.3rem 1rem;
@@ -40,28 +40,10 @@
   margin-bottom: 0.5rem;
 }
 
-.content {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.content > :first-child {
-  font-size: 22px;
-  font-weight: 900;
-  margin-left: 0.5rem;
-}
-
 .date {
   border-top: 1px solid #c8cee0;
   padding-top: 1rem;
   white-space: pre;
-}
-
-.description {
-  text-align: center;
 }
 
 .elements {
@@ -90,12 +72,6 @@
   }
 }
 
-.row {
-  align-items: center;
-  display: flex;
-  margin-bottom: 2rem;
-}
-
 .summary {
   align-items: center;
   direction: rtl;
@@ -105,16 +81,5 @@
   justify-content: center;
   padding: 4rem;
   position: relative;
-  width: 100%;
-}
-
-.icon {
-  display: flex;
-  flex: none;
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
   width: 100%;
 }

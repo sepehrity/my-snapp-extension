@@ -1,10 +1,11 @@
 export const colors = [
+  '#6c5ce7',
+  '#f95d6a',
   '#26D9B8',
   '#00BCD4',
   '#2680D9',
   '#ffa600',
   '#ff7c43',
-  '#f95d6a',
 ];
 
 export const carColors = [

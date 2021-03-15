@@ -4,6 +4,7 @@ import type { RidesData } from 'types/Rides';
 import type { RideHistoryResponse } from 'types/RideHistoryResponse';
 
 import { convertedData } from 'manipulate';
+import { getErrorMessage } from 'utils/messages';
 import { getRidePage } from 'api';
 import constants from 'utils/constants';
 
@@ -17,6 +18,7 @@ import styles from './SnappExtension.module.css';
 const SnappExtension = () => {
   const [accessToken, setAccessToken] = useState<string>('');
   const [data, setData] = useState<RidesData | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [mapboxToken, setMapboxToken] = useState<string>('');
@@ -66,14 +68,23 @@ const SnappExtension = () => {
   ) => {
     e.preventDefault();
     setIsLoading(true);
-    if (e.target instanceof HTMLElement) {
-      const accessToken = e.target.dataset.accessToken as string;
-      if (data) {
-        handleShowResult(data, false);
-      } else {
-        const response = await getRides(accessToken);
-        const result = convertedData(response);
-        handleShowResult(result, true);
+    if (data) {
+      handleShowResult(data, false);
+    } else {
+      if (e.target instanceof HTMLElement) {
+        try {
+          const accessToken = e.target.dataset.accessToken as string;
+          const response = await getRides(accessToken);
+          const result = convertedData(response);
+          handleShowResult(result, true);
+        } catch (e) {
+          const error =
+            getErrorMessage[(e as Error).message] ||
+            constants.somethingWentWrong;
+          setError(error);
+          setIsLoading(false);
+          return;
+        }
       }
       setIsFetching(false);
     }
@@ -117,7 +128,7 @@ const SnappExtension = () => {
   return (
     <main className={styles.extension}>
       <div className={styles.actions}>
-        {accessToken ? (
+        {accessToken && !error ? (
           <>
             <span className={styles.hint}>{constants.mapboxHint}</span>
             <Input
@@ -156,7 +167,9 @@ const SnappExtension = () => {
           </>
         ) : (
           <>
-            <span className={styles.hint}>{constants.snappLoginHint}</span>
+            <span className={styles.hint}>
+              {error ? error : constants.snappLoginHint}
+            </span>
             <Link url="snappPWA">
               <button className={styles.snappButton} type="button">
                 {constants.loginToSnapp}

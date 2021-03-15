@@ -20,6 +20,15 @@ export const getRidePage = async (
     method: 'GET',
     mode: 'cors',
   })
-    .then((c) => c.json())
-    .then((c) => c.data.rides);
+    .then((response) => {
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error(`${response.status}`);
+        }
+      } else {
+        return response.json();
+      }
+    })
+    .then(({ data }) => data.rides)
+    .catch((error) => Promise.reject(error));
 };
