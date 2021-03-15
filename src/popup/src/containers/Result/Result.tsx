@@ -14,19 +14,19 @@ import Summary from 'components/Summary';
 import styles from './Result.module.css';
 
 interface Props {
-  data: RidesData;
+  rides: RidesData;
   mapboxToken: string | undefined;
 }
 
-const Result = ({ mapboxToken, data }: Props) => {
+const Result = ({ mapboxToken, rides }: Props) => {
   const options = useMemo(
     () =>
-      Object.keys(data).sort((a, b) => {
+      Object.keys(rides).sort((a, b) => {
         return (
           data_pattern.indexOf(b as string) - data_pattern.indexOf(a as string)
         );
       }),
-    [data]
+    [rides]
   );
   const [year, setYear] = useState<ReactText>(options[0]);
 
@@ -41,12 +41,12 @@ const Result = ({ mapboxToken, data }: Props) => {
   );
 
   const getTotal = useMemo(() => {
-    const _years = Object.keys(data).reduce((tmp, year) => {
+    const _years = Object.keys(rides).reduce((tmp, year) => {
       if (year === 'total') {
         return tmp;
       }
 
-      const { _summary } = data[year] as Required<Rides>;
+      const { _summary } = rides[year] as Required<Rides>;
 
       // add _years chart
       setWith(tmp, [year], {
@@ -57,14 +57,14 @@ const Result = ({ mapboxToken, data }: Props) => {
       return tmp;
     }, {});
 
-    data['total']._years = _years;
+    rides['total']._years = _years;
 
-    return data['total'];
-  }, [data]);
+    return rides['total'];
+  }, [rides]);
 
   const currentData = useMemo(
-    () => (year === 'total' ? getTotal : data[year]),
-    [data, year, getTotal]
+    () => (year === 'total' ? getTotal : rides[year]),
+    [rides, year, getTotal]
   );
 
   return (

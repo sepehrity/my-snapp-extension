@@ -146,7 +146,7 @@ const SnappExtension = () => {
 
   if (window.location.href.includes('#result')) {
     if (dataInStorage) {
-      return <Result data={dataInStorage.rides} mapboxToken={mapboxToken} />;
+      return <Result rides={dataInStorage.rides} mapboxToken={mapboxToken} />;
     }
     return <div className={styles.loadData}>{constants.loadData}</div>;
   }
