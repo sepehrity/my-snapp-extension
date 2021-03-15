@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import type { RidesData } from 'types/Rides';
+import type { DataStorage } from 'types/Storage';
 import type { RideHistoryResponse } from 'types/RideHistoryResponse';
 
 import { convertedData } from 'manipulate';
 import { getErrorMessage } from 'utils/messages';
-import { getRidePage } from 'api';
+import { getSingleRidePage } from 'api';
 import constants from 'utils/constants';
+import { convertToLastVersion, getLastVersionNumber } from 'manipulate/convert';
 
 import Result from 'containers/Result';
 import CarAnimation from 'components/CarAnimation';
@@ -17,7 +18,7 @@ import styles from './SnappExtension.module.css';
 
 const SnappExtension = () => {
   const [accessToken, setAccessToken] = useState<string>('');
-  const [data, setData] = useState<RidesData | null>(null);
+  const [dataInStorage, setDataInStorage] = useState<DataStorage | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const SnappExtension = () => {
       setAccessToken(accessToken);
     });
     chrome.storage.local.get('result', ({ result }) => {
-      setData(result);
+      setDataInStorage(result);
     });
     chrome.storage.local.get('mapboxToken', ({ mapboxToken }) => {
       setMapboxToken(mapboxToken || '');
@@ -47,20 +48,47 @@ const SnappExtension = () => {
   }, []);
 
   // fetch data from Snapp API
-  const getRides = async (
+  const getAllRides = async (
     accessToken: string
   ): Promise<RideHistoryResponse[]> => {
     let page = 1;
     setPage(page);
-    let rides = await getRidePage(accessToken, page++);
+    let rides = await getSingleRidePage(accessToken, page++);
     let response = [...rides];
 
     while (rides.length > 0) {
       response = [...response, ...rides];
       setPage(page);
-      rides = await getRidePage(accessToken, page++);
+      rides = await getSingleRidePage(accessToken, page++);
     }
     return response;
+  };
+
+  const prepareRidesData = async (accessToken: string) => {
+    try {
+      const response = await getAllRides(accessToken);
+      const [lastRide] = response;
+      const rides = convertedData(response);
+
+      handleShowResult(
+        {
+          rides,
+          meta: {
+            lastRideId: lastRide.human_readable_id,
+            version: getLastVersionNumber(),
+            forceUpdate: false,
+          },
+        },
+        true
+      );
+    } catch (e) {
+      const error =
+        getErrorMessage[(e as Error).message] || constants.somethingWentWrong;
+      setError(error);
+      setIsLoading(false);
+      return;
+    }
+    setIsFetching(false);
   };
 
   const handleGetRidesHistory = async (
@@ -68,29 +96,31 @@ const SnappExtension = () => {
   ) => {
     e.preventDefault();
     setIsLoading(true);
-    if (data) {
-      handleShowResult(data, false);
-    } else {
-      if (e.target instanceof HTMLElement) {
-        try {
-          const accessToken = e.target.dataset.accessToken as string;
-          const response = await getRides(accessToken);
-          const result = convertedData(response);
-          handleShowResult(result, true);
-        } catch (e) {
-          const error =
-            getErrorMessage[(e as Error).message] ||
-            constants.somethingWentWrong;
-          setError(error);
-          setIsLoading(false);
-          return;
+    if (e.target instanceof HTMLElement) {
+      const accessToken = e.target.dataset.accessToken as string;
+
+      if (dataInStorage) {
+        const { meta, rides } = convertToLastVersion(dataInStorage);
+        if (meta.forceUpdate) {
+          prepareRidesData(accessToken);
+        } else {
+          // get last ride
+          const [lastRide] = await getSingleRidePage(accessToken, 1);
+          setPage(1);
+          const isUpdated = lastRide.human_readable_id === meta.lastRideId;
+          if (isUpdated) {
+            handleShowResult({ rides, meta }, false);
+          } else {
+            // TODO: get new rides
+          }
         }
+      } else {
+        prepareRidesData(accessToken);
       }
-      setIsFetching(false);
     }
   };
 
-  const handleShowResult = (result: RidesData, withLoading: boolean) => {
+  const handleShowResult = (result: DataStorage, withLoading: boolean) => {
     chrome.storage.local.set({ result }, () => {
       if (withLoading) {
         pendingTimer.current = setTimeout(() => {
@@ -115,8 +145,8 @@ const SnappExtension = () => {
   };
 
   if (window.location.href.includes('#result')) {
-    if (data) {
-      return <Result data={data} mapboxToken={mapboxToken} />;
+    if (dataInStorage) {
+      return <Result data={dataInStorage.rides} mapboxToken={mapboxToken} />;
     }
     return <div className={styles.loadData}>{constants.loadData}</div>;
   }
