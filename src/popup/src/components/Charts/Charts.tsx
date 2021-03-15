@@ -14,19 +14,19 @@ interface Props {
 }
 
 const Charts = ({
-  data: { _hours, _days, _weeks, _months, _years, _cars, _rates, _types },
+  data: { _rates, _types, _hours, _days, _weeks, _months, _years, _cars },
 }: Props) => {
   const BarCharts: BarChartsObject = useMemo(() => {
     return {
+      _rates,
+      _types,
       _hours,
       _days,
       _weeks: getSortedPattern(_weeks, week_pattern),
       _months: getSortedPattern(_months, month_pattern),
-      _rates,
-      _types,
       ...(_years && { _years }),
     };
-  }, [_hours, _days, _weeks, _months, _rates, _types, _years]);
+  }, [_rates, _types, _hours, _days, _weeks, _months, _years]);
 
   const CarCharts: CountPriceObject[] = useMemo(
     () => getCarsChunks(getSortedPattern(_cars, [], 'count')),
