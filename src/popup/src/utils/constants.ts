@@ -16,6 +16,7 @@ export default {
   saveData: 'ذخیره‌ی اطلاعات',
   snapp: 'Snapp',
   snappLoginHint: 'برای دریافت گزارش باید وارد حساب اسنپت بشی!',
+  somethingWentWrong: 'خب کرش کردیم ^__^',
   total: 'مجموع',
   tweet: 'توییت',
   twitter: 'به اشتراک‌گذاری در توییتر',

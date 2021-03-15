@@ -135,3 +135,7 @@ export const getExportName: { [type in BarChartTypes]: string } = {
   _rates: 'Rates',
   _types: 'ServiceTypes',
 };
+
+export const getErrorMessage: { [statusCode: string]: string } = {
+  401: 'خیلی وقته بهم سر نزدی! باید دوباره وارد حساب اسنپت بشی.',
+};
