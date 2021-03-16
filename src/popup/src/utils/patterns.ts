@@ -1,4 +1,4 @@
-import type { Rides } from 'types/Rides';
+import type { SummaryKeys } from 'types/Summary';
 
 export const week_pattern = [
   'شنبه',
@@ -27,11 +27,6 @@ const MONTHS = {
 
 export const data_pattern = ['total'];
 
-export const summary_pattern: Array<keyof Rides['_summary']> = [
-  'count',
-  'prices',
-  'durations',
-  'distances',
-];
+export const summary_pattern: SummaryKeys[] = ['count', 'prices'];
 
 export const month_pattern = Object.keys(MONTHS);

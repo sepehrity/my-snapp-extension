@@ -17,8 +17,6 @@ type Props = {
 const getIconType: { [type in Type]: IconNames } = {
   count: 'car',
   prices: 'money',
-  durations: 'clock',
-  distances: 'location',
   rate: 'star',
 };
 

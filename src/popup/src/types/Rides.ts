@@ -19,8 +19,6 @@ export type Rides = {
   _summary: {
     count: number;
     prices: number; // Tomans
-    durations: number; // hours
-    distances: number; // KMs
   };
   _ranges: {
     start: string; // start time

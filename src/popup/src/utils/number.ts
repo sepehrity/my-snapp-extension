@@ -33,11 +33,3 @@ const roundNumber = (num: number, places?: number) => {
   const val = Math.pow(10, places);
   return Math.round(num * val) / val;
 };
-
-export const convertHoursToDay = (hours: number) => {
-  return roundNumber(hours / 24, 2);
-};
-
-export const convertDistanceToTehranShomal = (distances: number) => {
-  return roundNumber(distances / 198, 1);
-};

@@ -1,12 +1,7 @@
 import type { BarChartTypes } from 'types/Charts';
 import type { RateObject, SummaryItemType, SummaryKeys } from 'types/Summary';
 
-import {
-  convertDistanceToTehranShomal,
-  convertHoursToDay,
-  formattedNumber,
-  getPrice,
-} from './number';
+import { formattedNumber, getPrice } from './number';
 
 const SNAPP_BIKE = 'اسنپ بایک';
 
@@ -37,14 +32,6 @@ const getTypeFormat: {
   },
 };
 
-const equaltsToTehranShomal = (value: number) => {
-  return `معادل با پیمودن ${value} بار مسیر تهران-شمال`;
-};
-
-const equalsToDay = (value: number) => {
-  return `معادل با ${value} روز`;
-};
-
 const getFormattedSummary: {
   [type in SummaryKeys]: {
     format: (value: number) => SummaryItemType;
@@ -60,26 +47,6 @@ const getFormattedSummary: {
       return {
         message: getPrice(Number(value), false),
         unit: 'تومان',
-      };
-    },
-  },
-  durations: {
-    format: (value) => {
-      return {
-        description: `${equalsToDay(convertHoursToDay(Number(value)))}`,
-        message: formattedNumber(value, 2),
-        unit: 'ساعت',
-      };
-    },
-  },
-  distances: {
-    format: (value) => {
-      return {
-        description: `${equaltsToTehranShomal(
-          convertDistanceToTehranShomal(Number(value))
-        )}`,
-        message: formattedNumber(value),
-        unit: 'کیلومتر',
       };
     },
   },
