@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
+import get from 'lodash.get';
 
-import type { RidesData } from 'types/Rides';
+import type { DataStorage } from 'types/Storage';
 import type { RideHistoryResponse } from 'types/RideHistoryResponse';
 
-import { convertedData } from 'manipulate';
-import { getErrorMessage } from 'utils/messages';
-import { getRidePage } from 'api';
+import { getReport, mergeReports } from 'manipulate';
+import { getErrorMessage, getLastRideDateMessage } from 'utils/messages';
+import { getSingleRidePage } from 'api';
 import constants from 'utils/constants';
+import { convertToLastVersion, getLastVersionNumber } from 'manipulate/convert';
 
 import Result from 'containers/Result';
 import CarAnimation from 'components/CarAnimation';
 import Footer from 'components/Footer';
-import Input from 'components/Input/Input';
+import Input from 'components/Input';
 import Link from 'components/Link';
 import styles from './SnappExtension.module.css';
 
 const SnappExtension = () => {
   const [accessToken, setAccessToken] = useState<string>('');
-  const [data, setData] = useState<RidesData | null>(null);
+  const [dataInStorage, setDataInStorage] = useState<DataStorage | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,7 +34,7 @@ const SnappExtension = () => {
       setAccessToken(accessToken);
     });
     chrome.storage.local.get('result', ({ result }) => {
-      setData(result);
+      setDataInStorage(result);
     });
     chrome.storage.local.get('mapboxToken', ({ mapboxToken }) => {
       setMapboxToken(mapboxToken || '');
@@ -47,20 +49,73 @@ const SnappExtension = () => {
   }, []);
 
   // fetch data from Snapp API
-  const getRides = async (
+  const getAllRides = async (
     accessToken: string
   ): Promise<RideHistoryResponse[]> => {
     let page = 1;
     setPage(page);
-    let rides = await getRidePage(accessToken, page++);
+    let rides = await getSingleRidePage(accessToken, page++);
     let response = [...rides];
 
     while (rides.length > 0) {
       response = [...response, ...rides];
       setPage(page);
-      rides = await getRidePage(accessToken, page++);
+      rides = await getSingleRidePage(accessToken, page++);
     }
     return response;
+  };
+
+  const getNewRides = async (
+    pageOneHistory: RideHistoryResponse[],
+    filterRideId: string
+  ): Promise<RideHistoryResponse[]> => {
+    let page = 2;
+    setPage(page);
+    let rides = await getSingleRidePage(accessToken, page++);
+    let response = [...pageOneHistory, ...rides];
+
+    while (rides.length > 0) {
+      const lastRideIdIndex = response.findIndex(
+        (r) => r.human_readable_id === filterRideId
+      );
+      if (lastRideIdIndex > -1) {
+        // return new rides
+        return response.slice(0, lastRideIdIndex);
+      } else {
+        response = [...response, ...rides];
+        setPage(page);
+        rides = await getSingleRidePage(accessToken, page++);
+      }
+    }
+    return response;
+  };
+
+  const prepareRidesData = async (accessToken: string) => {
+    try {
+      const ridesHistory = await getAllRides(accessToken);
+      const [lastRide] = ridesHistory;
+
+      const rides = getReport(ridesHistory);
+
+      handleShowResult(
+        {
+          rides,
+          meta: {
+            lastRideId: lastRide.human_readable_id,
+            version: getLastVersionNumber(),
+            forceUpdate: false,
+          },
+        },
+        true
+      );
+    } catch (e) {
+      const error =
+        getErrorMessage[(e as Error).message] || constants.somethingWentWrong;
+      setError(error);
+      setIsLoading(false);
+      return;
+    }
+    setIsFetching(false);
   };
 
   const handleGetRidesHistory = async (
@@ -68,29 +123,42 @@ const SnappExtension = () => {
   ) => {
     e.preventDefault();
     setIsLoading(true);
-    if (data) {
-      handleShowResult(data, false);
-    } else {
-      if (e.target instanceof HTMLElement) {
-        try {
-          const accessToken = e.target.dataset.accessToken as string;
-          const response = await getRides(accessToken);
-          const result = convertedData(response);
-          handleShowResult(result, true);
-        } catch (e) {
-          const error =
-            getErrorMessage[(e as Error).message] ||
-            constants.somethingWentWrong;
-          setError(error);
-          setIsLoading(false);
-          return;
+    if (e.target instanceof HTMLElement) {
+      const accessToken = e.target.dataset.accessToken as string;
+
+      if (dataInStorage) {
+        const { meta, rides } = convertToLastVersion(dataInStorage);
+        if (meta.forceUpdate) {
+          prepareRidesData(accessToken);
+        } else {
+          // get last ride
+          setPage(1);
+          const lastRidesPage = await getSingleRidePage(accessToken, 1);
+          const lastRideId = lastRidesPage[0].human_readable_id;
+
+          const isUpdated = lastRideId === meta.lastRideId;
+
+          if (isUpdated) {
+            handleShowResult({ rides, meta }, false);
+          } else {
+            // fetch new rides history based on last ride id
+            const ridesHistory = await getNewRides(
+              lastRidesPage,
+              meta.lastRideId
+            );
+            const newRides = getReport(ridesHistory);
+            const rides = mergeReports(newRides, dataInStorage.rides);
+
+            handleShowResult({ rides, meta: { ...meta, lastRideId } }, false);
+          }
         }
+      } else {
+        prepareRidesData(accessToken);
       }
-      setIsFetching(false);
     }
   };
 
-  const handleShowResult = (result: RidesData, withLoading: boolean) => {
+  const handleShowResult = (result: DataStorage, withLoading: boolean) => {
     chrome.storage.local.set({ result }, () => {
       if (withLoading) {
         pendingTimer.current = setTimeout(() => {
@@ -115,8 +183,8 @@ const SnappExtension = () => {
   };
 
   if (window.location.href.includes('#result')) {
-    if (data) {
-      return <Result data={data} mapboxToken={mapboxToken} />;
+    if (dataInStorage) {
+      return <Result rides={dataInStorage.rides} mapboxToken={mapboxToken} />;
     }
     return <div className={styles.loadData}>{constants.loadData}</div>;
   }
@@ -124,6 +192,8 @@ const SnappExtension = () => {
   if (isLoading) {
     return <CarAnimation isFetching={isFetching} speed={page} />;
   }
+
+  const lastRideEndRange = get(dataInStorage, 'rides.total._ranges.end', '');
 
   return (
     <main className={styles.extension}>
@@ -164,6 +234,9 @@ const SnappExtension = () => {
             >
               {constants.getAnalytics}
             </button>
+            <span className={styles.lastRideDate}>
+              {lastRideEndRange && getLastRideDateMessage(lastRideEndRange)}
+            </span>
           </>
         ) : (
           <>

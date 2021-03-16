@@ -1,6 +1,6 @@
 import type { RideHistoryResponse } from 'types/RideHistoryResponse';
 
-export const getRidePage = async (
+export const getSingleRidePage = async (
   accessToken: string,
   page: number
 ): Promise<RideHistoryResponse[]> => {
