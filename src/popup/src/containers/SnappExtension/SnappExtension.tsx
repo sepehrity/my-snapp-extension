@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import get from 'lodash.get';
 
 import type { DataStorage } from 'types/Storage';
 import type { RideHistoryResponse } from 'types/RideHistoryResponse';
 
 import { getReport, mergeReports } from 'manipulate';
-import { getErrorMessage } from 'utils/messages';
+import { getErrorMessage, getLastRideDateMessage } from 'utils/messages';
 import { getSingleRidePage } from 'api';
 import constants from 'utils/constants';
 import { convertToLastVersion, getLastVersionNumber } from 'manipulate/convert';
@@ -192,6 +193,8 @@ const SnappExtension = () => {
     return <CarAnimation isFetching={isFetching} speed={page} />;
   }
 
+  const lastRideEndRange = get(dataInStorage, 'rides.total._ranges.end', '');
+
   return (
     <main className={styles.extension}>
       <div className={styles.actions}>
@@ -231,6 +234,9 @@ const SnappExtension = () => {
             >
               {constants.getAnalytics}
             </button>
+            <span className={styles.lastRideDate}>
+              {lastRideEndRange && getLastRideDateMessage(lastRideEndRange)}
+            </span>
           </>
         ) : (
           <>
