@@ -5,9 +5,7 @@ import type { SVGProps } from 'types/SVGProps';
 
 import Calendar from './Calendar';
 import Car from './Car';
-import Clock from './Clock';
 import Download from './Download';
-import Location from './Location';
 import Money from './Money';
 import Star from './Star';
 import Token from './Token';
@@ -25,9 +23,7 @@ interface Props extends SVGProps {
 const getIcon: { [icon in IconNames]: React.FunctionComponent<SVGProps> } = {
   calendar: Calendar,
   car: Car,
-  clock: Clock,
   download: Download,
-  location: Location,
   money: Money,
   star: Star,
   token: Token,

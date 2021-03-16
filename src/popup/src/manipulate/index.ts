@@ -188,51 +188,6 @@ export const getReport = (response: RideHistoryResponse[]) => {
         get(tmp, [year, '_types', service_type_name, 'price'], 0) + price
       );
 
-      /* 
-      // calculate durations (hour) [not the exact time of ride duration]
-      const duration = getDuration(created_at, updated_at);
-      set(
-        tmp,
-        ["total", "_summary", "durations"],
-        get(tmp, ["total", "_summary", "durations"], 0) + duration
-      );
-      set(
-        tmp,
-        [year, "_summary", "durations"],
-        get(tmp, [year, "_summary", "durations"], 0) + duration
-      );
-      */
-
-      /* 
-      // calculate durations (hour) [deprecated due Snapp API changes] ¯\_(ツ)_/¯
-      const duration = Number(real_duration) / 60;
-      set(
-        tmp,
-        ["total", "_summary", "durations"],
-        get(tmp, ["total", "_summary", "durations"], 0) + duration
-      );
-      set(
-        tmp,
-        [year, "_summary", "durations"],
-        get(tmp, [year, "_summary", "durations"], 0) + duration
-      );
-      */
-
-      /*
-      // calculate distances (KM) [deprecated due Snapp API changes] ¯\_(ツ)_/¯
-      const distance = estimated_distance / 1000;
-      set(
-        tmp,
-        ["total", "_summary", "distances"],
-        get(tmp, ["total", "_summary", "distances"], 0) + distance
-      );
-      set(
-        tmp,
-        [year, "_summary", "distances"],
-        get(tmp, [year, "_summary", "distances"], 0) + distance
-      );
-      */
-
       // calculate startTime
       set(tmp, ['total', '_ranges', 'start'], rideTime);
       set(tmp, [year, '_ranges', 'start'], rideTime);

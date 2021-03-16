@@ -70,26 +70,3 @@ export const getTimeAndDateOfRide = (
     }
   );
 };
-
-/*
-[deprecated due Snapp API changes]
-const getHours = (hours: string, minutes: string, seconds: string) => {
-  return Number(hours) + Number(minutes) / 60 + Number(seconds) / 3600;
-};
-
-export const getDuration = (start: string, end: string) => {
-  const [, startTime] = start.split(" ");
-  const [, endTime] = end.split(" ");
-
-  // HH:MM:SS
-  const [SHH, SMM, SSS] = startTime.split(":");
-  const [EHH, EMM, ESS] = endTime.split(":");
-
-  const startHours = getHours(SHH, SMM, SSS);
-  const endHours = getHours(EHH, EMM, ESS);
-
-  const duration = endHours - startHours;
-
-  return duration > 0 ? duration : 0;
-};
-*/

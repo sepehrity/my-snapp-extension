@@ -7,8 +7,6 @@ interface RowDetail {
 }
 
 export interface RideHistoryResponse {
-  // estimated_distance: number; /* deprecated ¯\_(ツ)_/¯ */
-  // real_duration: number; /* deprecated ¯\_(ツ)_/¯ */
   human_readable_id: string;
   created_at: string;
   destination: Coordinate;
