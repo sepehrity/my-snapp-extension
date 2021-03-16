@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import type { DataStorage } from 'types/Storage';
 import type { RideHistoryResponse } from 'types/RideHistoryResponse';
 
-import { convertedData } from 'manipulate';
+import { getReport, mergeReports } from 'manipulate';
 import { getErrorMessage } from 'utils/messages';
 import { getSingleRidePage } from 'api';
 import constants from 'utils/constants';
@@ -12,7 +12,7 @@ import { convertToLastVersion, getLastVersionNumber } from 'manipulate/convert';
 import Result from 'containers/Result';
 import CarAnimation from 'components/CarAnimation';
 import Footer from 'components/Footer';
-import Input from 'components/Input/Input';
+import Input from 'components/Input';
 import Link from 'components/Link';
 import styles from './SnappExtension.module.css';
 
@@ -64,11 +64,37 @@ const SnappExtension = () => {
     return response;
   };
 
+  const getNewRides = async (
+    pageOneHistory: RideHistoryResponse[],
+    filterRideId: string
+  ): Promise<RideHistoryResponse[]> => {
+    let page = 2;
+    setPage(page);
+    let rides = await getSingleRidePage(accessToken, page++);
+    let response = [...pageOneHistory, ...rides];
+
+    while (rides.length > 0) {
+      const lastRideIdIndex = response.findIndex(
+        (r) => r.human_readable_id === filterRideId
+      );
+      if (lastRideIdIndex > -1) {
+        // return new rides
+        return response.slice(0, lastRideIdIndex);
+      } else {
+        response = [...response, ...rides];
+        setPage(page);
+        rides = await getSingleRidePage(accessToken, page++);
+      }
+    }
+    return response;
+  };
+
   const prepareRidesData = async (accessToken: string) => {
     try {
-      const response = await getAllRides(accessToken);
-      const [lastRide] = response;
-      const rides = convertedData(response);
+      const ridesHistory = await getAllRides(accessToken);
+      const [lastRide] = ridesHistory;
+
+      const rides = getReport(ridesHistory);
 
       handleShowResult(
         {
@@ -105,13 +131,24 @@ const SnappExtension = () => {
           prepareRidesData(accessToken);
         } else {
           // get last ride
-          const [lastRide] = await getSingleRidePage(accessToken, 1);
           setPage(1);
-          const isUpdated = lastRide.human_readable_id === meta.lastRideId;
+          const lastRidesPage = await getSingleRidePage(accessToken, 1);
+          const lastRideId = lastRidesPage[0].human_readable_id;
+
+          const isUpdated = lastRideId === meta.lastRideId;
+
           if (isUpdated) {
             handleShowResult({ rides, meta }, false);
           } else {
-            // TODO: get new rides
+            // fetch new rides history based on last ride id
+            const ridesHistory = await getNewRides(
+              lastRidesPage,
+              meta.lastRideId
+            );
+            const newRides = getReport(ridesHistory);
+            const rides = mergeReports(newRides, dataInStorage.rides);
+
+            handleShowResult({ rides, meta: { ...meta, lastRideId } }, false);
           }
         }
       } else {

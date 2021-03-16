@@ -1,9 +1,16 @@
 import get from 'lodash.get';
+import mergeWith from 'lodash.mergewith';
 import set from 'lodash.set';
 import setWith from 'lodash.setwith';
 
-import type { RidesData } from 'types/Rides';
+import type { PickByValue } from 'types/helpers';
 import type { RideHistoryResponse } from 'types/RideHistoryResponse';
+import type {
+  CountPrice,
+  CountPriceObject,
+  Rides,
+  RidesData,
+} from 'types/Rides';
 
 import {
   getCarName,
@@ -12,7 +19,78 @@ import {
   isCanceledRide,
 } from './helpers';
 
-export const convertedData = (response: RideHistoryResponse[]) => {
+type CountPriceKeys = keyof PickByValue<Required<Rides>, CountPriceObject>;
+
+const countPriceKeys: CountPriceKeys[] = [
+  '_cars',
+  '_days',
+  '_hours',
+  '_months',
+  '_rates',
+  '_types',
+  '_weeks',
+  '_years',
+];
+
+const mergeSumAndCount = (
+  value: CountPrice | undefined,
+  src: CountPrice
+): CountPrice => {
+  if (!value) return src;
+
+  return {
+    count: value.count + src.count,
+    price: value.price + src.price,
+  };
+};
+
+// TODO: Fix type :|
+const mixer = (
+  value: Rides[typeof key] | undefined,
+  src: Required<Rides>[typeof key],
+  key: keyof Rides
+) => {
+  if (!value) {
+    return src;
+  }
+
+  if (key === '_summary') {
+    return {
+      count:
+        (value as Rides['_summary']).count + (src as Rides['_summary']).count,
+      prices:
+        (value as Rides['_summary']).prices + (src as Rides['_summary']).prices,
+    };
+  }
+
+  if (key === '_ranges') {
+    return {
+      start: (src as Rides['_ranges']).start,
+      end: (value as Rides['_ranges']).end,
+    };
+  }
+
+  if (key === '_points') {
+    return {
+      origin: (src as Rides['_points']).origin.concat(
+        (value as Rides['_points']).origin
+      ),
+      destination: (src as Rides['_points']).destination.concat(
+        (value as Rides['_points']).destination
+      ),
+    };
+  }
+
+  if (countPriceKeys.some((k) => k === key)) {
+    return mergeWith(value, src, mergeSumAndCount);
+  }
+};
+
+export const mergeReports = (newRides: RidesData, oldRides: RidesData) => {
+  return mergeWith(newRides, oldRides, mixer);
+};
+
+export const getReport = (response: RideHistoryResponse[]) => {
   return response.reduce(
     (
       tmp: RidesData,
