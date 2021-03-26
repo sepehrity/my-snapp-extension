@@ -6,7 +6,7 @@ import type { RideHistoryResponse } from 'types/RideHistoryResponse';
 
 import { getReport, mergeReports } from 'manipulate';
 import { getErrorMessage, getLastRideDateMessage } from 'utils/messages';
-import { getSingleRidePage } from 'api';
+import { fetchSingleRidePage } from 'api';
 import constants from 'utils/constants';
 import { convertToLastVersion, getLastVersionNumber } from 'manipulate/convert';
 
@@ -47,6 +47,18 @@ const SnappExtension = () => {
       }
     };
   }, []);
+
+  const getSingleRidePage = async (accessToken: string, page: number) => {
+    try {
+      return await fetchSingleRidePage(accessToken, page++);
+    } catch (e) {
+      const error =
+        getErrorMessage[(e as Error).message] || constants.somethingWentWrong;
+      setError(error);
+      setIsLoading(false);
+      return [];
+    }
+  };
 
   // fetch data from Snapp API
   const getAllRides = async (
@@ -91,30 +103,22 @@ const SnappExtension = () => {
   };
 
   const prepareRidesData = async (accessToken: string) => {
-    try {
-      const ridesHistory = await getAllRides(accessToken);
-      const [lastRide] = ridesHistory;
+    const ridesHistory = await getAllRides(accessToken);
+    const [lastRide] = ridesHistory;
 
-      const rides = getReport(ridesHistory);
+    const rides = getReport(ridesHistory);
 
-      handleShowResult(
-        {
-          rides,
-          meta: {
-            lastRideId: lastRide.human_readable_id,
-            version: getLastVersionNumber(),
-            forceUpdate: false,
-          },
+    handleShowResult(
+      {
+        rides,
+        meta: {
+          lastRideId: lastRide.human_readable_id,
+          version: getLastVersionNumber(),
+          forceUpdate: false,
         },
-        true
-      );
-    } catch (e) {
-      const error =
-        getErrorMessage[(e as Error).message] || constants.somethingWentWrong;
-      setError(error);
-      setIsLoading(false);
-      return;
-    }
+      },
+      true
+    );
     setIsFetching(false);
   };
 
@@ -134,22 +138,24 @@ const SnappExtension = () => {
           // get last ride
           setPage(1);
           const lastRidesPage = await getSingleRidePage(accessToken, 1);
-          const lastRideId = lastRidesPage[0].human_readable_id;
+          if (lastRidesPage.length > 0) {
+            const lastRideId = lastRidesPage[0].human_readable_id;
 
-          const isUpdated = lastRideId === meta.lastRideId;
+            const isUpdated = lastRideId === meta.lastRideId;
 
-          if (isUpdated) {
-            handleShowResult({ rides, meta }, false);
-          } else {
-            // fetch new rides history based on last ride id
-            const ridesHistory = await getNewRides(
-              lastRidesPage,
-              meta.lastRideId
-            );
-            const newRides = getReport(ridesHistory);
-            const rides = mergeReports(newRides, dataInStorage.rides);
+            if (isUpdated) {
+              handleShowResult({ rides, meta }, false);
+            } else {
+              // fetch new rides history based on last ride id
+              const ridesHistory = await getNewRides(
+                lastRidesPage,
+                meta.lastRideId
+              );
+              const newRides = getReport(ridesHistory);
+              const rides = mergeReports(newRides, dataInStorage.rides);
 
-            handleShowResult({ rides, meta: { ...meta, lastRideId } }, false);
+              handleShowResult({ rides, meta: { ...meta, lastRideId } }, false);
+            }
           }
         }
       } else {
