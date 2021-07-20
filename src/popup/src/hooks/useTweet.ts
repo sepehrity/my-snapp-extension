@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback, MouseEvent } from 'react';
 
 import type { ComponentProps } from 'react';
 
@@ -14,7 +14,7 @@ type ButtonProps = ComponentProps<typeof FloatButton>;
 
 const useTweet = ({ hashtags }: Props) => {
   const onTweet = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (event: MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
       // const _title = "pic.twitter.com/URL"; // TODO: add shareurl
       const twitterURL = `https://twitter.com/share?ref_src=twsrc%5Etfw/&hashtags=${hashtags}`;

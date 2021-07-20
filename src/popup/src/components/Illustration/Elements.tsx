@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { SVGProps } from 'types/SVGProps';
 
 const Elements = (props: SVGProps) => {

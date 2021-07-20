@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import type { IconNames } from 'types/IconNames';
 import type { SummaryItemType, SummaryKeys } from 'types/Summary';

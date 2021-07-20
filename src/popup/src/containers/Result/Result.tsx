@@ -1,4 +1,4 @@
-import React, { ReactText, useCallback, useMemo, useState } from 'react';
+import { ReactText, useCallback, useMemo, useState, MouseEvent } from 'react';
 import setWith from 'lodash.setwith';
 
 import type { Rides, RidesData } from 'types/Rides';
@@ -30,15 +30,12 @@ const Result = ({ mapboxToken, rides }: Props) => {
   );
   const [year, setYear] = useState<ReactText>(options[0]);
 
-  const handleSelectYear = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (event.target instanceof HTMLElement) {
-        const year = event.target.dataset.year as string;
-        setYear(year);
-      }
-    },
-    []
-  );
+  const handleSelectYear = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    if (event.target instanceof HTMLElement) {
+      const year = event.target.dataset.year as string;
+      setYear(year);
+    }
+  }, []);
 
   const getTotal = useMemo(() => {
     const _years = Object.keys(rides).reduce((tmp, year) => {

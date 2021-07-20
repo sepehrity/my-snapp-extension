@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 import type { Rides } from 'types/Rides';
 import type { RateObject } from 'types/Summary';

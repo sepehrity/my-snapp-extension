@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import type { CountPriceObject, Rides } from 'types/Rides';
 import type { BarChartsObject, BarChartTypes } from 'types/Charts';

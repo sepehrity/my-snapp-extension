@@ -34,7 +34,7 @@ export const convertToLastVersion = (data: DataStorage) => {
 
       // init version
       if (!hasVersion) {
-        tmp.rides = (data as unknown) as RidesData;
+        tmp.rides = data as unknown as RidesData;
         tmp.meta = meta;
         return tmp;
       }

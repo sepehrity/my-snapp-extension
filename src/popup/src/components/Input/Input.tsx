@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { DetailedHTMLProps, InputHTMLAttributes, memo } from 'react';
 
 import type { IconNames } from 'types/IconNames';
 
@@ -6,13 +6,13 @@ import Icon from 'components/Icon';
 import styles from './Input.module.css';
 
 interface Props
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
   id: string;
   icon: IconNames;
-  type: React.InputHTMLAttributes<HTMLInputElement>['type'];
+  type: InputHTMLAttributes<HTMLInputElement>['type'];
   label?: string;
 }
 

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { FC, memo } from 'react';
 
 import type { IconNames } from 'types/IconNames';
 import type { SVGProps } from 'types/SVGProps';
@@ -20,7 +20,7 @@ interface Props extends SVGProps {
   type: IconNames;
 }
 
-const getIcon: { [icon in IconNames]: React.FunctionComponent<SVGProps> } = {
+const getIcon: { [icon in IconNames]: FC<SVGProps> } = {
   calendar: Calendar,
   car: Car,
   download: Download,

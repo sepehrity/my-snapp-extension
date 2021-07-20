@@ -1,4 +1,11 @@
-import React, { createRef, useCallback, useMemo, useState } from 'react';
+import {
+  createRef,
+  useCallback,
+  useMemo,
+  useState,
+  CSSProperties,
+  MouseEvent,
+} from 'react';
 import domToImage from 'dom-to-image';
 
 import type { ComponentProps } from 'react';
@@ -13,14 +20,15 @@ const sound = require('assests/capture.mp3');
 
 type ButtonProps = ComponentProps<typeof FloatButton>;
 
+const captureSound = new Audio(sound);
+
 const useDownload = ({ exportName, size, style }: DownloadConfig) => {
   const downloadRef = createRef<HTMLDivElement>();
   const [downloading, setDownloading] = useState<boolean>(false);
 
-  const captureSound = new Audio(sound);
   captureSound.volume = 0.2;
 
-  const buttonStyle: React.CSSProperties = useMemo(
+  const buttonStyle: CSSProperties = useMemo(
     () =>
       downloading
         ? { visibility: 'hidden', opacity: 0, ...style }
@@ -37,7 +45,7 @@ const useDownload = ({ exportName, size, style }: DownloadConfig) => {
   );
 
   const onDownload = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (event: MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
       if (downloadRef.current) {
         setDownloading(true);
@@ -60,7 +68,7 @@ const useDownload = ({ exportName, size, style }: DownloadConfig) => {
           });
       }
     },
-    [captureSound, downloadRef, exportName, size]
+    [downloadRef, exportName, size]
   );
 
   const downloadButtonProps: ButtonProps = {

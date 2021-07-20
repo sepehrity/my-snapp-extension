@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 
 import type { LabelFormatter } from '@nivo/bar';
@@ -22,16 +22,12 @@ type Props = {
 
 const BarChart = ({ color, data, type }: Props) => {
   const size = useWindowSize();
-  const {
-    downloadRef,
-    wrapperStyle,
-    DownloadButton,
-    downloadButtonProps,
-  } = useDownload({
-    size,
-    style: barChartDownloadButton,
-    exportName: getExportName[type],
-  });
+  const { downloadRef, wrapperStyle, DownloadButton, downloadButtonProps } =
+    useDownload({
+      size,
+      style: barChartDownloadButton,
+      exportName: getExportName[type],
+    });
 
   return (
     <div className={styles.barContainer}>
@@ -45,11 +41,11 @@ const BarChart = ({ color, data, type }: Props) => {
           data={data}
           indexBy={type}
           keys={['price']}
-          label={({ data }) => `${((data as unknown) as CountPrice).count}`}
+          label={({ data }) => `${(data as unknown as CountPrice).count}`}
           labelFormat={
-            (((value: string) => (
+            ((value: string) => (
               <tspan y={-15}>{value}</tspan>
-            )) as unknown) as LabelFormatter
+            )) as unknown as LabelFormatter
           }
           labelSkipWidth={16}
           margin={{ top: 60, right: 10, bottom: 130, left: 150 }}
