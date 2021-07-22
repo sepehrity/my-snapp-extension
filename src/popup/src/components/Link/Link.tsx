@@ -1,6 +1,6 @@
-import React, { memo } from 'react';
+import { AnchorHTMLAttributes, memo } from 'react';
 
-interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
   url: keyof typeof getURL;
   children: React.ReactNode | string;
 }

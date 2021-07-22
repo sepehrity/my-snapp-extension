@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, MouseEvent, ChangeEvent } from 'react';
 import get from 'lodash.get';
 
 import type { DataStorage } from 'types/Storage';
@@ -122,9 +122,7 @@ const SnappExtension = () => {
     setIsFetching(false);
   };
 
-  const handleGetRidesHistory = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleGetRidesHistory = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoading(true);
     if (e.target instanceof HTMLElement) {
@@ -183,7 +181,7 @@ const SnappExtension = () => {
     });
   };
 
-  const handleChangeMapboxToken = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeMapboxToken = (e: ChangeEvent<HTMLInputElement>) => {
     setMapboxToken(e.target.value);
     chrome.storage.local.set({ mapboxToken: e.target.value });
   };

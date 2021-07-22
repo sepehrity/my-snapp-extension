@@ -1,8 +1,6 @@
 import Link from 'components/Link';
-
+import { memo } from 'react';
 import constants from 'utils/constants';
-
-import React, { memo } from 'react';
 import styles from './Footer.module.css';
 
 const Footer = () => {

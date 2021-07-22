@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo, HTMLAttributes } from 'react';
 
 import type { IconNames } from 'types/IconNames';
 
@@ -6,7 +6,7 @@ import styles from './FloatButton.module.css';
 
 import Icon from 'components/Icon';
 
-type Props = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & {
+type Props = Omit<HTMLAttributes<HTMLDivElement>, 'className'> & {
   text: string;
   type: IconNames;
 };

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { FC, memo } from 'react';
 
 import type { SVGProps } from 'types/SVGProps';
 import type { IllustrationNames } from 'types/IllustrationNames';
@@ -17,7 +17,7 @@ interface Props extends SVGProps {
 }
 
 const getSVG: {
-  [icon in IllustrationNames]: React.FunctionComponent<SVGProps>;
+  [icon in IllustrationNames]: FC<SVGProps>;
 } = {
   air: Air,
   blooming: Blooming,

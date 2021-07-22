@@ -1,4 +1,3 @@
-import React from 'react';
 import Lottie from 'react-lottie-player';
 
 import animationData from 'assests/snapp_car.json';

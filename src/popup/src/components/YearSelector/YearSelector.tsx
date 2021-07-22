@@ -1,12 +1,12 @@
-import React, { memo, ReactText } from 'react';
+import { HTMLAttributes, memo, ReactText, MouseEvent } from 'react';
 
 import constants from 'utils/constants';
 
 import styles from './YearSelector.module.css';
 
-export interface Props extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends HTMLAttributes<HTMLDivElement> {
   active: ReactText;
-  onSelectYear: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onSelectYear: (event: MouseEvent<HTMLDivElement>) => void;
   years: ReactText[];
 }
 

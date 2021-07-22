@@ -21,7 +21,7 @@ body {
 * {
   box-sizing: border-box;
   direction: rtl;
-  font-family: "Sahel", sans-serif;
+  font-family: 'Sahel', sans-serif;
 }
 
 #root {
@@ -46,7 +46,7 @@ input,
 button {
   border-color: transparent;
   display: block;
-  font-family: "Sahel", sans-serif;
+  font-family: 'Sahel', sans-serif;
   height: 40px;
   text-align: center;
   width: 100%;
