@@ -1,6 +1,6 @@
 {
   "name": "snapp-analyzer-extension",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "lintOnSave": true,
   "description": "Analyze your Snapp rides",
   "main": "index.js",
