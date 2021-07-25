@@ -1,1 +1,1 @@
-export type IllustrationNames = 'air' | 'blooming' | 'elements';
+export type IllustrationNames = 'blooming' | 'elements';

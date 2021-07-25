@@ -3,7 +3,6 @@ import { FC, memo } from 'react';
 import type { SVGProps } from 'types/SVGProps';
 import type { IllustrationNames } from 'types/IllustrationNames';
 
-import Air from './Air';
 import Blooming from './Blooming';
 import Elements from './Elements';
 import styles from './Illustration.module.css';
@@ -19,7 +18,6 @@ interface Props extends SVGProps {
 const getSVG: {
   [icon in IllustrationNames]: FC<SVGProps>;
 } = {
-  air: Air,
   blooming: Blooming,
   elements: Elements,
 };
