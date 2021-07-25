@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "My Snapp",
   "short_name": "My Snapp",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Analyze your Snapp rides",
   "permissions": ["tabs", "storage"],
   "browser_action": {
