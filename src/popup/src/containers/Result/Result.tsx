@@ -1,4 +1,12 @@
-import { ReactText, useCallback, useMemo, useState, MouseEvent } from 'react';
+import {
+  lazy,
+  MouseEvent,
+  ReactText,
+  Suspense,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import setWith from 'lodash.setwith';
 
 import type { Rides, RidesData } from 'types/Rides';
@@ -7,11 +15,12 @@ import constants from 'utils/constants';
 import { data_pattern } from 'utils/patterns';
 
 import Charts from 'components/Charts';
-import Heatmap from 'components/Heatmap';
 import Illustration from 'components/Illustration';
 import Link from 'components/Link';
 import Summary from 'components/Summary';
 import styles from './Result.module.css';
+
+const HeatmapComponent = lazy(() => import('components/Heatmap'));
 
 interface Props {
   rides: RidesData;
@@ -76,7 +85,12 @@ const Result = ({ mapboxToken, rides }: Props) => {
       />
       <Charts data={currentData} />
       {mapboxToken ? (
-        <Heatmap accessToken={mapboxToken} points={currentData._points} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <HeatmapComponent
+            accessToken={mapboxToken}
+            points={currentData._points}
+          />
+        </Suspense>
       ) : (
         <div className={styles.placeholder}>
           <Link url="mapboxToken" className={styles.mapboxToken}>
