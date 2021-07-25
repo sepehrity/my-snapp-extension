@@ -1,4 +1,11 @@
-import { useState, useEffect, useRef, MouseEvent, ChangeEvent } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  MouseEvent,
+  ChangeEvent,
+  lazy,
+} from 'react';
 import get from 'lodash.get';
 
 import type { DataStorage } from 'types/Storage';
@@ -10,12 +17,13 @@ import { fetchSingleRidePage } from 'api';
 import constants from 'utils/constants';
 import { convertToLastVersion, getLastVersionNumber } from 'manipulate/convert';
 
-import Result from 'containers/Result';
 import CarAnimation from 'components/CarAnimation';
 import Footer from 'components/Footer';
 import Input from 'components/Input';
 import Link from 'components/Link';
 import styles from './SnappExtension.module.css';
+
+const ResultComponent = lazy(() => import('containers/Result'));
 
 const SnappExtension = () => {
   const [accessToken, setAccessToken] = useState<string>('');
@@ -188,7 +196,12 @@ const SnappExtension = () => {
 
   if (window.location.href.includes('#result')) {
     if (dataInStorage) {
-      return <Result rides={dataInStorage.rides} mapboxToken={mapboxToken} />;
+      return (
+        <ResultComponent
+          rides={dataInStorage.rides}
+          mapboxToken={mapboxToken}
+        />
+      );
     }
     return <div className={styles.loadData}>{constants.loadData}</div>;
   }
