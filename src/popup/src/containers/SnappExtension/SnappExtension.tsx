@@ -5,6 +5,7 @@ import {
   MouseEvent,
   ChangeEvent,
   lazy,
+  Suspense,
 } from 'react';
 import get from 'lodash.get';
 
@@ -197,10 +198,12 @@ const SnappExtension = () => {
   if (window.location.href.includes('#result')) {
     if (dataInStorage) {
       return (
-        <ResultComponent
-          rides={dataInStorage.rides}
-          mapboxToken={mapboxToken}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ResultComponent
+            rides={dataInStorage.rides}
+            mapboxToken={mapboxToken}
+          />
+        </Suspense>
       );
     }
     return <div className={styles.loadData}>{constants.loadData}</div>;
