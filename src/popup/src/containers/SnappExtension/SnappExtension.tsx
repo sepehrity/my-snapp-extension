@@ -177,7 +177,7 @@ const SnappExtension = () => {
 
   const handleOpenNewTab = () => {
     chrome.tabs.create({
-      url: chrome.extension.getURL('popup/index.html#result'),
+      url: chrome.runtime.getURL('popup/index.html#result'),
     });
   };
 

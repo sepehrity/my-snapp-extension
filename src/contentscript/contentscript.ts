@@ -5,7 +5,7 @@ function injectScript(file_path: string, tag: string) {
   script.setAttribute("src", file_path);
   node.appendChild(script);
 }
-injectScript(chrome.extension.getURL("assets/getAccessToken.js"), "body");
+injectScript(chrome.runtime.getURL("assets/getAccessToken.js"), "body");
 
 window.addEventListener(
   "PassAccessToken",
